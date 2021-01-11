@@ -1,23 +1,18 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import './style.css';
+import AddUser from './Components/AddUser';
+import UserList from './Components/UserList';
+import AddNote from './Components/AddNote';
 
 function App() {
+  const [data,setData] = useState(null)
+  const token = sessionStorage.getItem('token')
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {<AddUser />}
+        { <UserList data={data} setData={setData}/>}
+        {<AddNote  setData={setData}/>}
     </div>
   );
 }
