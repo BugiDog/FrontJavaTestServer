@@ -1,0 +1,39 @@
+.activ_tag{
+    font-size: 20px;
+    background-color: rgb(77, 77, 238);
+    display: inline;
+    margin: 10px;
+}
+
+.not_activ_tag{
+    font-size: 20px;
+    background-color: yellow;
+    display: inline;
+    margin: 10px;
+}
+
+.del_butt{
+    height: 20px;
+    background-color: red;
+}
+
+.note{
+    margin: 20px 5px;
+    border: 5px solid black;
+}
+
+.not_activ_tag_but{
+    min-width: 20px;
+    min-height: 30px;
+    font-size: 20px;
+    background-color: yellow;
+    display: inline;
+    margin: 10px;
+}
+
+.flex{
+    display: flex;
+   flex-direction: column;
+   flex-shrink: 1;
+    
+}

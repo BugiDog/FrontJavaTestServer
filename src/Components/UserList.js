@@ -1,39 +1,39 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import NoteItem from './NoteItem';
 
-function UserList({data,setData}) {
-    const token = sessionStorage.getItem('token')
-    const url = `http://localhost:8082/loadNoteList?token=${token}`
-    console.log(url);
+function UserList({ data, setData, tagsArr }) {
+    console.log("data",data);
 
 
-    const hendlClick = () => {
-        if (token!=null){
-                  fetch(url)
-            .then(res =>res.json())
-            .then(item =>{
-                setData(item)
-                console.log(item);
-            })  
-        }
+    const [inputTocken, setInputTocken] = useState('')
 
+
+
+    const handlClick2 = () => {
+        sessionStorage.removeItem('token')
     }
 
-    const hendlClick2 = () =>{
-        sessionStorage.removeItem('token')
+    const handlClick3 = () => {
+        sessionStorage.setItem('token', inputTocken)
+    }
+
+    const inputChange = (event) => {
+        setInputTocken(event.target.value)
     }
 
     return (
         <div className="App">
-            <button onClick={hendlClick}>
-                Показать лист
-            </button>
-            <button onClick={hendlClick2}>
+
+            <button onClick={handlClick2}>
                 Удалить token
             </button>
-        {   !!data && data.map(dataItem=><NoteItem key={dataItem.id} data={dataItem} setData={setData}/>)
+            <button onClick={handlClick3}>
+                Войти
+            </button>
+            <input onChange={inputChange} />
+            {   !!data && data.map(dataItem => <NoteItem key={dataItem.id} data={dataItem} setData={setData} tagsArr={tagsArr} />)
 
-        }
+            }
         </div>
     );
 }

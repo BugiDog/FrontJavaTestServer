@@ -1,20 +1,21 @@
 import React from 'react';
 
-function AddUser() {
+function AddUser({setTokenIsHere}) {
   const url ='http://localhost:8082/addUser'
-  const hendlClick = () =>{
+  const handlClick = () =>{
     fetch(url)
     .then(res=>res.json())
     .then(item=>{
-      console.log(item.token)
+      console.log(item)
       sessionStorage.setItem('token',item.token)
+      setTokenIsHere(item.token)
     })
 
   }
 
   return (
     <div className="App">
-      <button onClick={hendlClick}>
+      <button onClick={handlClick}>
           Добавить пользователя 
       </button>
     </div>
