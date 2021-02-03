@@ -1,42 +1,29 @@
 import React, { useState, useEffect } from 'react';
 
-function AddNote({ setData, tagsArr }) {
+function AddNote({ setData, tagsArr, searchQuery}) {
 
   const token = sessionStorage.getItem('token')
-  const url = `http://localhost:8082/addNote`
+  
 
 
   const [title, setTitle] = useState(null);
   const [description, setDescription] = useState(null);
   const [isPinned, setIsPinned] = useState(false)
-  const [activTagsArray, setXui] = useState(null)
+  const [activTagsArray, setTagsArray] = useState(null)
 
   useEffect(()=>{
-    const govno = tagsArr.map((item) => {
+    const newtagsArr = tagsArr.map((item) => {
       return {
         ...item,
         isActive: false
       }
     })
     
-    console.log('rez',govno);
-    setXui(govno)
+
+    setTagsArray(newtagsArr)
   },[tagsArr])
 
 
-
-  // useEffect(() => {
-  //   const url = `http://localhost:8082/loadTagList?token=${token}`
-  //   fetch(url)
-  //     .then(res => res.json())
-  //     .then(item => {
-  //       const rez = item.map(element => {
-  //         element.isActive = false
-  //         return element
-  //       })
-  //       setXui(rez)
-  //     })
-  // }, [tagsArr])
 
 
   const handlClick = () => {
@@ -48,8 +35,10 @@ function AddNote({ setData, tagsArr }) {
       isPinned,
       activeTagsArray: activTagsArray.filter(item =>item.isActive).map(item=>item.id)
     }
-    console.log("newNote",newNote);
-    console.log("newNoteJSON",JSON.stringify(newNote));
+    //console.log("newNote",newNote);
+    //console.log("newNoteJSON",JSON.stringify(newNote));
+    
+    const url = `http://localhost:8082/addNote?searchQuery=${searchQuery}`
     if (token != null) {
       fetch(url, {
         method: 'POST',
@@ -72,8 +61,8 @@ function AddNote({ setData, tagsArr }) {
       }
       return i
     })
-    console.log('rez',rez);
-    setXui(rez)
+    //console.log('rez',rez);
+    setTagsArray(rez)
   }
 
 

@@ -2,13 +2,13 @@ import React, { useEffect, useState } from 'react';
 import TagItem from './TagItem';
 
 
-function AddTags({tagsArr, setTagsArr}) {
+function AddTags({ tagsArr, setTagsArr, setData, searchQuery }) {
 
   const token = sessionStorage.getItem('token')
   const [tagName, setTagName] = useState(null);
 
   const handlClick = () => {
-    const url = 'http://localhost:8082/addTag'
+    const url = `http://localhost:8082/addTag?searchQuery=${searchQuery}`
     const newNote = {
       "userToken": token,
       "name": tagName,
@@ -22,7 +22,8 @@ function AddTags({tagsArr, setTagsArr}) {
         .then(res => res.json())
         .then(item => {
           console.log(item)
-          setTagsArr(item)
+          setData(item.noteList)
+          setTagsArr(item.tagList)
         })
     }
     setTagName("")
@@ -39,13 +40,17 @@ function AddTags({tagsArr, setTagsArr}) {
   return (
     <div className="App">
       <div>
-        <input onChange={inputCange} value={tagName}/>
+        <input onChange={inputCange} value={tagName} />
         <button onClick={handlClick}>
           Добавить тэг
       </button>
       </div>
       <div>
-        {tagsArr && tagsArr.map(item => <TagItem key={item.id} item={item} setTagsArr={setTagsArr} />)}
+        {tagsArr && tagsArr.map(item => <TagItem key={item.id} item={item}
+          setTagsArr={setTagsArr}
+          setData={setData}
+          searchQuery={searchQuery}
+        />)}
       </div>
 
     </div>

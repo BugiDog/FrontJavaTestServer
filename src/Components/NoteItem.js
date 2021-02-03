@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 
 
-function NoteItem({ data, setData}) {
-
+function NoteItem({ data, setData,searchQuery}) {
+  console.log(data);
   const [change, setChenge] = useState(false)
   const [Pinned2, setPinned2] = useState(data.isPinned)
   const [title, setTitle] = useState(data.title)
@@ -10,18 +10,18 @@ function NoteItem({ data, setData}) {
   const [tagsArray, setTagsArray] = useState(null)
 
   useEffect(()=>{
-    const govno = data.tagsArray.map((item) => {
+    const newTagsArr = data.tagsArray.map((item) => {
       return {
         ...item
       }
     })
     
-    console.log('rez',govno);
-    setTagsArray(govno)
-  },[data.tagsArr])
+    //console.log('rez',newTagsArr);
+    setTagsArray(newTagsArr)
+  },[data])
 
   const handlClick = () => {
-    const url = `http://localhost:8082/deleteNote?id=${data.id}`
+    const url = `http://localhost:8082/deleteNote?id=${data.id}&searchQuery=${searchQuery}`
     fetch(url)
       .then(res => res.json())
       .then(item => {
@@ -36,7 +36,7 @@ function NoteItem({ data, setData}) {
   }
 
   const changePinned = () => {
-    const url = `http://localhost:8082/pinNote?id=${data.id}`
+    const url = `http://localhost:8082/pinNote?id=${data.id}&searchQuery=${searchQuery}`
     fetch(url)
       .then(res => res.json())
       .then(item => {
@@ -56,7 +56,7 @@ function NoteItem({ data, setData}) {
   }
 
   const handlClick3 = () => {
-    const url = `http://localhost:8082/editNote`
+    const url = `http://localhost:8082/editNote?searchQuery=${searchQuery}`
     const newNote = {
       "id": data.id,
       "userToken": sessionStorage.getItem('token'),
@@ -90,7 +90,7 @@ function NoteItem({ data, setData}) {
       }
       return item2
     })
-    console.log('rez',rez);
+   // console.log('rez',rez);
     setTagsArray(rez)
   }
 
@@ -107,7 +107,7 @@ function NoteItem({ data, setData}) {
         <input value={description} onChange={descriptionChange} />
         <input type="radio" checked={Pinned2} onClick={changePinned2} />
         { tagsArray && tagsArray.map(item=>{
-          console.log("item2.id",item);
+         // console.log("item2.id",item);
             return (
               <div key={item.id} className={ item.isActive ? 'activ_tag' : 'not_activ_tag' } onClick={()=>{changeAddNoteTag(item)}} >
                 {item.name}
@@ -126,7 +126,7 @@ function NoteItem({ data, setData}) {
         <input type="radio" checked={data.isPinned} onClick={changePinned} />
         
         { tagsArray && tagsArray.map(item=>{
-          console.log("item2.id",item);
+          //console.log("item2.id",item);
           if(item.isActive){
             return (
               <div key={item.id} className='activ_tag' >
